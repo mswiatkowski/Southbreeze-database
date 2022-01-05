@@ -326,7 +326,7 @@ CREATE TABLE Supplies
   PackageType     nvarchar(20) NOT NULL,
   QuantityPerPackage  int       CHECK(QuantityPerPackage>0) NOT NULL,
   Unit            nvarchar(20)  NOT NULL,
-  PackagesInStock int       CHECK(PackagesInStock>0) NOT NULL,
+  PackagesInStock int       CHECK(PackagesInStock>=0) NOT NULL,
   CONSTRAINT PK_Supplies PRIMARY KEY (SupplyID)
 )
 GO
