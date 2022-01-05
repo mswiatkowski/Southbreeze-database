@@ -8,7 +8,7 @@ CREATE TABLE Categories
 GO
 
 EXECUTE sys.sp_addextendedproperty 'MS_Description',
-  'Kategorie produktów', 'user', dbo, 'table', 'Categories'
+  'Kategorie produktÃ³w', 'user', dbo, 'table', 'Categories'
 GO
 
 CREATE TABLE CostsOfMaintenance
@@ -39,7 +39,7 @@ CREATE TABLE CostType
 GO
 
 EXECUTE sys.sp_addextendedproperty 'MS_Description',
-  'Typy kosztów', 'user', dbo, 'table', 'CostType'
+  'Typy kosztÃ³w', 'user', dbo, 'table', 'CostType'
 GO
 
 CREATE TABLE Customers
@@ -68,7 +68,7 @@ CREATE TABLE CustomerType
 GO
 
 EXECUTE sys.sp_addextendedproperty 'MS_Description',
-  'Typy klientów', 'user', dbo, 'table', 'CustomerType'
+  'Typy klientÃ³w', 'user', dbo, 'table', 'CustomerType'
 GO
 
 CREATE TABLE Employees
@@ -129,7 +129,7 @@ CREATE TABLE MethodOfPayment
 GO
 
 EXECUTE sys.sp_addextendedproperty 'MS_Description',
-  'Metody p³atnoœci', 'user', dbo, 'table', 'MethodOfPayment'
+  'Metody pÂ³atnoÅ“ci', 'user', dbo, 'table', 'MethodOfPayment'
 GO
 
 CREATE TABLE OrderDetails
@@ -143,7 +143,7 @@ CREATE TABLE OrderDetails
 GO
 
 EXECUTE sys.sp_addextendedproperty 'MS_Description',
-  'Szczegó³owe informacje o zamówionych produktach', 'user', dbo, 'table', 'OrderDetails'
+  'SzczegÃ³Â³owe informacje o zamÃ³wionych produktach', 'user', dbo, 'table', 'OrderDetails'
 GO
 
 CREATE TABLE OrderMethod
@@ -156,7 +156,7 @@ CREATE TABLE OrderMethod
 GO
 
 EXECUTE sys.sp_addextendedproperty 'MS_Description',
-  'Informacja o metodzie zamówienia', 'user', dbo, 'table', 'OrderMethod'
+  'Informacja o metodzie zamÃ³wienia', 'user', dbo, 'table', 'OrderMethod'
 GO
 
 CREATE TABLE Orders
@@ -177,7 +177,7 @@ CREATE TABLE Orders
 GO
 
 EXECUTE sys.sp_addextendedproperty 'MS_Description',
-  'Informacje o zamówieniach', 'user', dbo, 'table', 'Orders'
+  'Informacje o zamÃ³wieniach', 'user', dbo, 'table', 'Orders'
 GO
 
 CREATE TABLE PersonalReservation
@@ -199,11 +199,12 @@ CREATE TABLE ProductDetails
 (
   SupplyID  int NOT NULL UNIQUE,
   ProductID int NOT NULL UNIQUE,
-  Amount    real NOT NULL
+  Amount    real NOT NULL,
+  Unit      nvarchar(20)  NOT NULL
 )
 GO
 EXECUTE sys.sp_addextendedproperty 'MS_Description',
-  'Informacje o sk³adnikach (z zapasów), z których sk³adaj¹ siê poszczególne produkty', 'user', dbo, 'table', 'ProductDetails'
+  'Informacje o skÂ³adnikach (z zapasÃ³w), z ktÃ³rych skÂ³adajÂ¹ siÃª poszczegÃ³lne produkty', 'user', dbo, 'table', 'ProductDetails'
 GO
 
 CREATE TABLE Products
@@ -315,16 +316,17 @@ CREATE TABLE Suppliers
 GO
 
 EXECUTE sys.sp_addextendedproperty 'MS_Description',
-  'Informacje o dostawcach produktów do pizzerii', 'user', dbo, 'table', 'Suppliers'
+  'Informacje o dostawcach produktÃ³w do pizzerii', 'user', dbo, 'table', 'Suppliers'
 GO
 
 CREATE TABLE Supplies
 (
   SupplyID        int       NOT NULL,
   SupplyName      nvarchar(40) NOT NULL,
-  UnitPrice       money CHECK(UnitPrice>0) NOT NULL,
-  QuantityPerUnit nvarchar(20) CHECK(QuantityPerUnit>0) NOT NULL,
-  UnitsInStock    smallint CHECK(UnitsInStock >= 0) NOT NULL,
+  PackageType     nvarchar(20) NOT NULL,
+  QuantityPerPackage  int       CHECK(QuantityPerPackage>0) NOT NULL,
+  Unit            nvarchar(20)  NOT NULL,
+  PackagesInStock int       CHECK(PackagesInStock>0) NOT NULL,
   CONSTRAINT PK_Supplies PRIMARY KEY (SupplyID)
 )
 GO
@@ -337,14 +339,13 @@ CREATE TABLE SuppliesToOrder
 (
   SupplierID      int       NOT NULL,
   SupplyID        int       NOT NULL,
-  QuantityPerUnit nvarchar(20) CHECK(QuantityPerUnit > 0) NOT NULL,
   PriceOfUnit     money CHECK (PriceOfUnit > 0) NOT NULL,
   Quantity        smallint CHECK(Quantity>0) NOT NULL 
 )
 GO
 
 EXECUTE sys.sp_addextendedproperty 'MS_Description',
-  'Informacje o zapasach, które firma chce zamówiæ', 'user', dbo, 'table', 'SuppliesToOrder'
+  'Informacje o zapasach, ktÃ³re firma chce zamÃ³wiÃ¦', 'user', dbo, 'table', 'SuppliesToOrder'
 GO
 
 CREATE TABLE TableReservation
@@ -384,7 +385,7 @@ CREATE TABLE Taxes
 GO
 
 EXECUTE sys.sp_addextendedproperty 'MS_Description',
-  'Rodzaje podatków', 'user', dbo, 'table', 'Taxes'
+  'Rodzaje podatkÃ³w', 'user', dbo, 'table', 'Taxes'
 GO
 
 ALTER TABLE SuppliesToOrder
