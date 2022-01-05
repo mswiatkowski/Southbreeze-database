@@ -199,7 +199,7 @@ CREATE TABLE ProductDetails
 (
   SupplyID  int NOT NULL UNIQUE,
   ProductID int NOT NULL UNIQUE,
-  Amount    real CHECK(Unit>0) NOT NULL,
+  Amount    real CHECK(Amount>0) NOT NULL,
   Unit      nvarchar(20)  NOT NULL
 )
 GO
