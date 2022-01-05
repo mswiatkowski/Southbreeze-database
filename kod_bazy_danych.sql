@@ -129,7 +129,7 @@ CREATE TABLE MethodOfPayment
 GO
 
 EXECUTE sys.sp_addextendedproperty 'MS_Description',
-  'Metody p³atnoœci', 'user', dbo, 'table', 'MethodOfPayment'
+  'Metody płatnoœci', 'user', dbo, 'table', 'MethodOfPayment'
 GO
 
 CREATE TABLE OrderDetails
@@ -143,7 +143,7 @@ CREATE TABLE OrderDetails
 GO
 
 EXECUTE sys.sp_addextendedproperty 'MS_Description',
-  'Szczegó³owe informacje o zamówionych produktach', 'user', dbo, 'table', 'OrderDetails'
+  'Szczegółowe informacje o zamówionych produktach', 'user', dbo, 'table', 'OrderDetails'
 GO
 
 CREATE TABLE OrderMethod
@@ -199,12 +199,12 @@ CREATE TABLE ProductDetails
 (
   SupplyID  int NOT NULL UNIQUE,
   ProductID int NOT NULL UNIQUE,
-  Amount    real NOT NULL,
+  Amount    real CHECK(Unit>0) NOT NULL,
   Unit      nvarchar(20)  NOT NULL
 )
 GO
 EXECUTE sys.sp_addextendedproperty 'MS_Description',
-  'Informacje o sk³adnikach (z zapasów), z których sk³adaj¹ siê poszczególne produkty', 'user', dbo, 'table', 'ProductDetails'
+  'Informacje o składnikach (z zapasów), z których składają się poszczególne produkty', 'user', dbo, 'table', 'ProductDetails'
 GO
 
 CREATE TABLE Products
@@ -345,7 +345,7 @@ CREATE TABLE SuppliesToOrder
 GO
 
 EXECUTE sys.sp_addextendedproperty 'MS_Description',
-  'Informacje o zapasach, które firma chce zamówiæ', 'user', dbo, 'table', 'SuppliesToOrder'
+  'Informacje o zapasach, które firma chce zamówić', 'user', dbo, 'table', 'SuppliesToOrder'
 GO
 
 CREATE TABLE TableReservation
