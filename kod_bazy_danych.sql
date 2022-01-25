@@ -1,6 +1,6 @@
 CREATE TABLE BufferMenu
 (
-  ProductID   int         NOT NULL UNIQUE,
+  ProductID   int         NOT NULL,
   ProductName varchar(20) NOT NULL UNIQUE
 )
 GO
