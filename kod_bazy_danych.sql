@@ -237,7 +237,7 @@ CREATE TABLE Products
   ProductName        nvarchar(20) NOT NULL,
   ProductDescription nvarchar(30),
   ProductPrice       money CHECK(ProductPrice>0)   ,
-  PreparationTime    time(5) CHECK(PreparationTime BETWEEN 0 AND 60) NOT NULL ,
+  PreparationTime    real CHECK(PreparationTime BETWEEN 0 AND 60) NOT NULL ,
   DateMenuAddition   datetime CHECK(DateMenuAddition > '2000-01-01' and DateMenuAddition <= GETDATE()),
   DateMenuRemoval    datetime CHECK (DateMenuRemoval > '2000-01-01' AND DateMenuRemoval < GETDATE()),
   CONSTRAINT PK_Products PRIMARY KEY (ProductID)
@@ -259,8 +259,8 @@ CREATE TABLE RegisteredCompanies
   Country          nvarchar(30) NOT NULL,
   Phone            nvarchar(24) UNIQUE NOT NULL,
   Email            nvarchar(40) UNIQUE NOT NULL,
-  Discount         real CHECK (ConstantDiscount BETWEEN 0 AND 100),
-  EndDiscountDate datetime(8)
+  Discount         real CHECK (Discount BETWEEN 0 AND 1),
+  EndDiscountDate  datetime
 )
 GO
 
@@ -279,8 +279,8 @@ CREATE TABLE RegisteredCustomers
   Country          nvarchar(30) NOT NULL,
   Phone            nvarchar(24) UNIQUE NOT NULL,
   Email            nvarchar(40) UNIQUE NOT NULL,
-  Discount real CHECK(ConstantDiscount BETWEEN 0 AND 100),
-  EndDiscountDate  datetime(8)
+  Discount real CHECK(Discount BETWEEN 0 AND 1),
+  EndDiscountDate  datetime
 )
 GO
 
@@ -376,12 +376,13 @@ CREATE TABLE TableReservation
 (
   ReservationID     int     NOT NULL,
   ReservationType   int CHECK (ReservationType IN ('Online', 'ByPhone')),
-  DateOfReservation datetime CHECK (DateOfReservation>ReservationDate) NOT NULL,
+  DateOfReservation datetime NOT NULL,
   ReservationDate   datetime NOT NULL,
   ReservationExpire datetime NOT NULL,
-  ReservationTime   time(5) DEFAULT 2 CHECK(ReservationTime > 0 AND ReservationTime < 2)    ,
+  ReservationTime   real DEFAULT 2 CHECK(ReservationTime > 0 AND ReservationTime < 2)    ,
   Discontinued      bit CHECK(Discontinued IN (0,1)),
-  CONSTRAINT PK_TableReservation PRIMARY KEY (ReservationID)
+  CONSTRAINT PK_TableReservation PRIMARY KEY (ReservationID),
+  CONSTRAINT CHK_TableReservationDate CHECK (DateOfReservation > ReservationDate)
 )
 GO
 
