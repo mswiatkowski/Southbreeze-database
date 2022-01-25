@@ -1,6 +1,17 @@
+CREATE TABLE BufferMenu
+(
+  ProductID               NOT NULL UNIQUE,
+  ProductName varchar(20) NOT NULL UNIQUE
+)
+GO
+
+EXECUTE sys.sp_addextendedproperty 'MS_Description',
+  'Zbiór kandydatów na miejsce w menu', 'user', dbo, 'table', 'BufferMenu'
+GO
+
 CREATE TABLE Categories
 (
-  CategoryID   int      NOT NULL UNIQUE,
+  CategoryID   int          NOT NULL UNIQUE,
   CategoryName nvarchar(20) NOT NULL UNIQUE,
   Description  ntext   ,
   CONSTRAINT PK_Categories PRIMARY KEY (CategoryID)
@@ -117,6 +128,17 @@ GO
 
 EXECUTE sys.sp_addextendedproperty 'MS_Description',
   'Informacje o lokalach', 'user', dbo, 'table', 'Locals'
+GO
+
+CREATE TABLE Menu
+(
+  ProductID   int(4)       NOT NULL UNIQUE,
+  ProductName nvarchar(20) NOT NULL UNIQUE
+)
+GO
+
+EXECUTE sys.sp_addextendedproperty 'MS_Description',
+  'Aktualne menu', 'user', dbo, 'table', 'Menu'
 GO
 
 CREATE TABLE MethodOfPayment
@@ -237,7 +259,8 @@ CREATE TABLE RegisteredCompanies
   Country          nvarchar(30) NOT NULL,
   Phone            nvarchar(24) UNIQUE NOT NULL,
   Email            nvarchar(40) UNIQUE NOT NULL,
-  ConstantDiscount real CHECK (ConstantDiscount BETWEEN 0 AND 100)     
+  Discount         real CHECK (ConstantDiscount BETWEEN 0 AND 100),
+  EndDiscountDate datetime(8)
 )
 GO
 
@@ -256,7 +279,8 @@ CREATE TABLE RegisteredCustomers
   Country          nvarchar(30) NOT NULL,
   Phone            nvarchar(24) UNIQUE NOT NULL,
   Email            nvarchar(40) UNIQUE NOT NULL,
-  ConstantDiscount real CHECK(ConstantDiscount BETWEEN 0 AND 100)     
+  Discount real CHECK(ConstantDiscount BETWEEN 0 AND 100),
+  EndDiscountDate  datetime(8)
 )
 GO
 
@@ -542,4 +566,16 @@ ALTER TABLE Orders
   ADD CONSTRAINT FK_OrderMethod_TO_Orders
     FOREIGN KEY (OrderMethodID)
     REFERENCES OrderMethod (OrderMethodID)
+GO
+
+ALTER TABLE BufferMenu
+  ADD CONSTRAINT FK_Products_TO_BufferMenu
+    FOREIGN KEY (ProductID)
+    REFERENCES Products (ProductID)
+GO
+
+ALTER TABLE Menu
+  ADD CONSTRAINT FK_Products_TO_Menu
+    FOREIGN KEY (ProductID)
+    REFERENCES Products (ProductID)
 GO
