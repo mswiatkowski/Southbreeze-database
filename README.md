@@ -1,5 +1,5 @@
 # Southbreeze-database
-Baza danych pizzerii na Podstawy Baz Danych. Southbreeze, bo nie Northwind
+Baza danych pizzerii na Podstawy Baz Danych. Nazwa Southbreeze wzięła się z kontrastu do Northwind, która była bazą, której strukturę studiowaliśmy.
 
 Schemat vol. 7:
 
